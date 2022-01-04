@@ -1,1 +1,1 @@
-# parallel-computing-fp
+# parallel-programming-fp
