@@ -1,0 +1,50 @@
+syntax = "proto3";
+option go_package = "pb/txnpb";
+
+service TxnService {
+    // Sends a greeting
+    rpc CreateTxn (TxnRequest) returns (TxnResponse) {}
+}
+
+
+message TxnRequest {
+    Txn txn = 1;
+}
+
+message Txn {
+    repeated Operation operations = 1;
+    repeated bytes read_set = 2;
+    repeated bytes write_set = 3;
+    TxnType txn_type = 4;
+    int32 id = 5;
+    bool is_distributed = 6; 
+}
+
+message Operation {
+    bytes key = 1;
+    bytes value = 2;
+    OperationType operation_type = 3;
+}
+
+enum TxnType {
+    FREE = 0;
+    WAITING = 1;
+    BLOCKED = 2;
+}
+
+enum OperationType {
+    GET = 0;
+    SET = 1;
+    DELETE = 2;
+}
+
+message TxnResponse {
+    repeated KeyValue kvs = 1;
+    int32 id = 2;
+}
+
+message KeyValue {
+    bytes key = 1;
+    bytes value = 2;
+}
+
